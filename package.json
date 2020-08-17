@@ -1,0 +1,46 @@
+{
+  "name": "isequal.es",
+  "version": "0.1.0",
+  "description": "check if two parameters are equal, support es6+.",
+  "main": "index.min.js",
+  "scripts": {
+    "build": "cross-env BABEL_ENV=build node build",
+    "lint": "eslint . --ext js",
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cz848/isequal.es.git"
+  },
+  "keywords": [
+    "isEqual",
+    "es6",
+    "Object",
+    "Array",
+    "Function",
+    "Map",
+    "Set",
+    "ArrayBuffer",
+    "regExp",
+    "Date"
+  ],
+  "author": "Tyler Chao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cz848/isequal.es/issues"
+  },
+  "homepage": "https://github.com/cz848/isequal.es#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "jest": "^26.4.0",
+    "rollup": "^2.26.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^7.0.0"
+  }
+}
