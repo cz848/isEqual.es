@@ -5,13 +5,13 @@
 
 　　Supports types：Array, ArrayBuffer, Object, Boolean, Number, String, Date object, RegExp object, Error object, Function, Map, Set, Symbol, Class, BigInt and Typed array. Objects are compared by their own, not inherited, enumerable properties.
 
-# Install
+## Install
 
 ```javascript
 npm install isequal.es
 ```
 
-# API
+## Use
 
 ### `isEqual(a: Any, b: Any)`
 

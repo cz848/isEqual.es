@@ -28,29 +28,20 @@ export default function isEqual(a, b) {
   switch (type) {
     case 'array':
     case 'arraybuffer':
-      if (a.length !== b.length) return false;
-      // Compare every values
-      if (a.some((value, i) => !isEqual(value, b[i]))) return false;
-      return true;
+      return a.length === b.length && a.every((value, i) => isEqual(value, b[i]));
     case 'set':
     case 'map':
-      if (a.size !== b.size) return false;
-      if ([...a.entries()].some(([k, v]) => !b.has(k) || (type === 'map' && !isEqual(v, b.get(k))))) return false;
-      return true;
-    case 'regexp':
-      return a.source === b.source && a.flags === b.flags;
+      return a.size === b.size
+        && [...a.entries()].every(([key, value]) => b.has(key) && (type !== 'map' || isEqual(value, b.get(key))));
+    // case 'regexp':
+    //   return a.source === b.source && a.flags === b.flags;
     default:
       if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
       if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
 
       // Compare other object
       keys = Object.keys(a);
-      if (keys.length !== Object.keys(b).length) return false;
-
-      // Compare properties and values
-      if (keys.some(key => !hasOwnProperty.call(b, key) || !isEqual(a[key], b[key]))) return false;
+      return keys.length === Object.keys(b).length
+        && keys.every(key => hasOwnProperty.call(b, key) && isEqual(a[key], b[key]));
   }
-
-  // If nothing failed, return true
-  return true;
 }

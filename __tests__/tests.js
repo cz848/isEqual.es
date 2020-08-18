@@ -405,7 +405,7 @@ export default [
         equal: true,
       },
       {
-        description: 'same string of the error are equal',
+        description: 'empty string of the error are equal',
         value1: new Error(''),
         value2: new Error(''),
         equal: true,
@@ -435,19 +435,19 @@ export default [
         equal: false,
       },
       {
-        description: 'not equal errors (different value)',
+        description: 'not equal errors (different value) #1',
         value1: new Error(),
         value2: new Error(1),
         equal: false,
       },
       {
-        description: 'not equal errors (different value)',
+        description: 'not equal errors (different value) #2',
         value1: new Error(''),
         value2: new Error('1'),
         equal: false,
       },
       {
-        description: 'not equal errors (different value)',
+        description: 'not equal errors (different value) #3',
         value1: new Error(true),
         value2: new Error(1),
         equal: false,

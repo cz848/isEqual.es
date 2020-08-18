@@ -285,15 +285,9 @@ export default [
         equal: false,
       },
       {
-        description: 'set with extra undefined value is not equal #1',
+        description: 'set with extra undefined value is not equal',
         value1: set([]),
         value2: set([undefined]),
-        equal: false,
-      },
-      {
-        description: 'set with extra undefined value is not equal #2',
-        value1: set([undefined]),
-        value2: set([]),
         equal: false,
       },
       {
