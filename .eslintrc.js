@@ -1,8 +1,9 @@
 module.exports = {
   root: true,
   // eslint的解析器，需要安装对应的包
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
+    requireConfigFile: false,
     // 指定es版本
     ecmaVersion: 2019,
     // 使用es模块
@@ -51,4 +52,13 @@ module.exports = {
       consistent: true,
     }],
   },
+  overrides: [
+    {
+      // 构建脚本仅在本机/CI 运行，且 build/ 不随包发布，允许其引入 devDependencies
+      files: ['build/**/*.js'],
+      rules: {
+        'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+      },
+    },
+  ],
 };
