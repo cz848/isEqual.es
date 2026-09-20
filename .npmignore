@@ -6,3 +6,5 @@ build
 coverage
 __tests__
 jest.config.js
+pnpm-lock.yaml
+pnpm-workspace.yaml
