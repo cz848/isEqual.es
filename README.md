@@ -2,7 +2,7 @@
 
 Super lightweight, super short, zero dependency, unfathomably deep comparison function — includes ES6 new types.
 
-**Supports:** Array · ArrayBuffer · Object · Boolean · Number · String · Date · RegExp · Error · Function · Map · Set · Symbol · Class · BigInt · Typed array
+**Supports:** Array · ArrayBuffer · SharedArrayBuffer · Object · Boolean · Number · String · Date · RegExp · Error · Function · Map · Set · Symbol · Class · BigInt · Typed array
 
 Objects are compared by their own, not inherited, enumerable properties.
 
@@ -38,6 +38,11 @@ isEqual(
   new Map([['a', [1, 2]], ['b', 2]]),
   new Map([['b', 2], ['a', [1, 2]]]),
 );                                               // true
+isEqual(
+  new Uint8Array([1, 2, 3]).buffer,
+  new Uint8Array([1, 2, 3]).buffer,
+);                                               // true
+isEqual(new SharedArrayBuffer(2), new SharedArrayBuffer(2)); // true
 ```
 
 ## Semantics
@@ -54,7 +59,8 @@ isEqual(
 1. If either value is not an object or function, compare with `Object.is`.
 2. If constructors differ, return `false`.
 3. Resolve type via `Object.prototype.toString`:
-   - `Array` / `ArrayBuffer` — length and element-wise recursion.
+   - `Array` — length and element-wise recursion.
+   - `ArrayBuffer` / `SharedArrayBuffer` — byte-wise comparison through a `Uint8Array` view.
    - `Map` / `Set` — size and entry-wise recursion.
    - Otherwise — use overridden `valueOf`/`toString` if present, else compare own enumerable keys recursively.
 

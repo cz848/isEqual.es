@@ -1,7 +1,7 @@
 /*!
  * Check if two parameters are equal
  * Author: Tyler.Chao
- * github: https://github.com/cz848/dateio
+ * github: https://github.com/cz848/isEqual.es
  */
 
 /**
@@ -27,8 +27,14 @@ export default function isEqual(a, b) {
 
   switch (type) {
     case 'array':
-    case 'arraybuffer':
       return a.length === b.length && a.every((value, i) => isEqual(value, b[i]));
+    case 'arraybuffer':
+    case 'sharedarraybuffer': {
+      // ArrayBuffer/SharedArrayBuffer have no length or every, compare their bytes through an Uint8Array view
+      const x = new Uint8Array(a);
+      const y = new Uint8Array(b);
+      return x.length === y.length && x.every((byte, i) => byte === y[i]);
+    }
     case 'set':
     case 'map':
       return a.size === b.size

@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 class MyMap extends Map {}
 class MySet extends Set {}
 class MyClass {}
@@ -6,6 +7,7 @@ const emptyObj = {};
 
 const skipBigInt = typeof BigInt === 'undefined';
 const skipBigIntArray = typeof BigUint64Array === 'undefined';
+const skipSharedArrayBuffer = typeof SharedArrayBuffer === 'undefined';
 
 function map(obj, Class) {
   const a = new (Class || Map)();
@@ -25,6 +27,12 @@ function set(arr, Class) {
 
 function mySet(arr) {
   return set(arr, MySet);
+}
+
+function sab(bytes) {
+  const buffer = new SharedArrayBuffer(bytes.length);
+  new Uint8Array(buffer).set(bytes);
+  return buffer;
 }
 
 export default [
@@ -361,6 +369,101 @@ export default [
         value1: { 0: 1, 1: 2, length: 2, constructor: Int32Array },
         value2: new Int32Array([1, 2]),
         equal: false,
+      },
+    ],
+  },
+
+  {
+    description: 'ArrayBuffers',
+    tests: [
+      {
+        description: 'two empty ArrayBuffers are equal',
+        value1: new ArrayBuffer(0),
+        value2: new ArrayBuffer(0),
+        equal: true,
+      },
+      {
+        description: 'equal ArrayBuffers',
+        value1: new Uint8Array([1, 2, 3]).buffer,
+        value2: new Uint8Array([1, 2, 3]).buffer,
+        equal: true,
+      },
+      {
+        description: 'equal ArrayBuffers (zero filled)',
+        value1: new ArrayBuffer(2),
+        value2: new Uint8Array([0, 0]).buffer,
+        equal: true,
+      },
+      {
+        description: 'not equal ArrayBuffers (different byte)',
+        value1: new Uint8Array([1, 2, 3]).buffer,
+        value2: new Uint8Array([1, 2, 4]).buffer,
+        equal: false,
+      },
+      {
+        description: 'not equal ArrayBuffers (different length)',
+        value1: new Uint8Array([1, 2, 3]).buffer,
+        value2: new Uint8Array([1, 2]).buffer,
+        equal: false,
+      },
+      {
+        description: 'ArrayBuffer and array are not equal',
+        value1: new ArrayBuffer(2),
+        value2: [0, 0],
+        equal: false,
+      },
+      {
+        description: 'ArrayBuffer and typed array are not equal',
+        value1: new ArrayBuffer(2),
+        value2: new Uint8Array([0, 0]),
+        equal: false,
+      },
+      {
+        description: 'pseudo ArrayBuffer and equivalent ArrayBuffer are not equal',
+        value1: { byteLength: 0, constructor: ArrayBuffer },
+        value2: new ArrayBuffer(0),
+        equal: false,
+      },
+    ],
+  },
+
+  {
+    description: 'SharedArrayBuffers',
+    tests: [
+      {
+        description: 'two empty SharedArrayBuffers are equal',
+        value1: skipSharedArrayBuffer || sab([]),
+        value2: skipSharedArrayBuffer || sab([]),
+        equal: true,
+        skip: skipSharedArrayBuffer,
+      },
+      {
+        description: 'equal SharedArrayBuffers',
+        value1: skipSharedArrayBuffer || sab([1, 2, 3]),
+        value2: skipSharedArrayBuffer || sab([1, 2, 3]),
+        equal: true,
+        skip: skipSharedArrayBuffer,
+      },
+      {
+        description: 'not equal SharedArrayBuffers (different byte)',
+        value1: skipSharedArrayBuffer || sab([1, 2, 3]),
+        value2: skipSharedArrayBuffer || sab([1, 2, 4]),
+        equal: false,
+        skip: skipSharedArrayBuffer,
+      },
+      {
+        description: 'not equal SharedArrayBuffers (different length)',
+        value1: skipSharedArrayBuffer || sab([1, 2, 3]),
+        value2: skipSharedArrayBuffer || sab([1, 2]),
+        equal: false,
+        skip: skipSharedArrayBuffer,
+      },
+      {
+        description: 'ArrayBuffer and SharedArrayBuffer are not equal',
+        value1: new Uint8Array([0, 0]).buffer,
+        value2: skipSharedArrayBuffer || sab([0, 0]),
+        equal: false,
+        skip: skipSharedArrayBuffer,
       },
     ],
   },

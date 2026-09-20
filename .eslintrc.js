@@ -12,6 +12,7 @@ module.exports = {
   globals: {
     BigInt: true,
     BigUint64Array: true,
+    SharedArrayBuffer: true,
   },
   extends: [
     'airbnb-base',
